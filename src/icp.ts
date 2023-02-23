@@ -26,4 +26,27 @@ const createActor = async (identity: Identity): Promise<Service> => {
   return actor;
 };
 
-export const aliceActor = await createActor(aliceIdentity);
+const aliceActor = await createActor(aliceIdentity);
+
+
+export async function setIcpClient(chainId: string, initialPublicKeys: string []) {
+    const ret = await aliceActor.set_client(chainId, initialPublicKeys);
+    console.log("after set client: ", ret);
+}
+
+export async function updateState(state: Uint8Array) {
+    const ret = await aliceActor.update_state(state);
+    console.log("after set client: ", ret);
+}
+
+export async function getPublicKey(): Promise<number[] | undefined> {
+    const result = await aliceActor.public_key();
+    console.log("public key: ", result);
+    return (result as any).Ok.public_key;
+}
+
+export async function signMessages(messages: Uint8Array, header: Uint8Array, mmrLeaf: Uint8Array, mmrProof: Uint8Array): Promise<number[] | undefined> {
+    const result = await aliceActor.sign_messages2(messages, header, mmrLeaf, mmrProof);
+    console.log("signature is: ", result);
+    return (result as any).Ok;
+}

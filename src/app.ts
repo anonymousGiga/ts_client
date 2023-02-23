@@ -1,7 +1,6 @@
-import {aliceActor} from "./icp"
+import {setIcpClient, updateState, getPublicKey, signMessages} from "./icp"
 
 async function main() {
-    const publicKey = await aliceActor.public_key();
-    console.log("public key: ", (publicKey as any)?.Ok.public_key);
+    await getPublicKey();
 }
 main();
